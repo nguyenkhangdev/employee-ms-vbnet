@@ -73,13 +73,15 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\Services\DepartmentService.vb" />
     <Compile Include="BLL\Services\EmployeeService.vb" />
     <Compile Include="DAL\DbHelper\DbHelper.vb" />
+    <Compile Include="DAL\Repositories\DepartmentRepository.vb" />
     <Compile Include="DAL\Repositories\EmployeeRepository.vb" />
-    <Compile Include="frmEmployee.vb">
+    <Compile Include="UI\Forms\frmEmployee.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmEmployee.Designer.vb">
+    <Compile Include="UI\Forms\frmEmployee.Designer.vb">
       <DependentUpon>frmEmployee.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
@@ -100,7 +102,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmEmployee.resx">
+    <EmbeddedResource Include="UI\Forms\frmEmployee.resx">
       <DependentUpon>frmEmployee.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -126,7 +128,6 @@
     <Folder Include="Database\" />
     <Folder Include="Models\" />
     <Folder Include="UI\Controls\" />
-    <Folder Include="UI\Forms\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

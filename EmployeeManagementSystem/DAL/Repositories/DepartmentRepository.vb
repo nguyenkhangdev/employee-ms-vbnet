@@ -1,15 +1,13 @@
 ﻿Imports System.Data.SqlClient
-Imports System.Data
 
-Public Class EmployeeRepository
-
-    Public Function GetEmployees() As DataTable
+Public Class DepartmentRepository
+    Public Function GetDepartments() As DataTable
 
         Dim dt As New DataTable()
 
         Using conn = DbHelper.GetConnection()
 
-            Using cmd As New SqlCommand("sp_Employee_GetAll", conn)
+            Using cmd As New SqlCommand("sp_Department_GetAll", conn)
 
                 cmd.CommandType = CommandType.StoredProcedure
 
@@ -25,5 +23,4 @@ Public Class EmployeeRepository
         Return dt
 
     End Function
-
 End Class

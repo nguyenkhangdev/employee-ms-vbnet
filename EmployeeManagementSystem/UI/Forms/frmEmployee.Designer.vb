@@ -24,6 +24,7 @@ Partial Class frmEmployee
     Private Sub InitializeComponent()
         Me.btnLoad = New System.Windows.Forms.Button()
         Me.dgvEmployees = New System.Windows.Forms.DataGridView()
+        Me.cmbDepartment = New System.Windows.Forms.ComboBox()
         CType(Me.dgvEmployees, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -42,14 +43,23 @@ Partial Class frmEmployee
         Me.dgvEmployees.Location = New System.Drawing.Point(42, 101)
         Me.dgvEmployees.Name = "dgvEmployees"
         Me.dgvEmployees.RowHeadersWidth = 51
-        Me.dgvEmployees.Size = New System.Drawing.Size(686, 207)
+        Me.dgvEmployees.Size = New System.Drawing.Size(569, 211)
         Me.dgvEmployees.TabIndex = 1
+        '
+        'cmbDepartment
+        '
+        Me.cmbDepartment.FormattingEnabled = True
+        Me.cmbDepartment.Location = New System.Drawing.Point(179, 32)
+        Me.cmbDepartment.Name = "cmbDepartment"
+        Me.cmbDepartment.Size = New System.Drawing.Size(121, 21)
+        Me.cmbDepartment.TabIndex = 2
         '
         'frmEmployee
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(640, 360)
+        Me.Controls.Add(Me.cmbDepartment)
         Me.Controls.Add(Me.dgvEmployees)
         Me.Controls.Add(Me.btnLoad)
         Me.Name = "frmEmployee"
@@ -61,4 +71,5 @@ Partial Class frmEmployee
 
     Friend WithEvents btnLoad As Button
     Friend WithEvents dgvEmployees As DataGridView
+    Friend WithEvents cmbDepartment As ComboBox
 End Class
