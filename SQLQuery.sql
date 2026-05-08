@@ -80,6 +80,27 @@ INNER JOIN Departments d
     ON e.DepartmentId = d.DepartmentId
 WHERE e.IsDeleted = 0;
 
+CREATE PROCEDURE sp_Employee_GetOneById
+(
+    @EmployeeId INT
+)
+AS
+BEGIN
+    SELECT
+        e.EmployeeId,
+        e.EmployeeCode,
+        e.FullName, 
+        e.Email,
+        e.Phone,
+        e.Position,
+        e.Salary,
+        e.DepartmentId
+    FROM Employees e 
+ 
+    Where e.EmployeeId = @EmployeeId and e.IsDeleted = 0
+END
+GO
+
 CREATE PROCEDURE sp_Employee_GetAll
 AS
 BEGIN
@@ -97,6 +118,8 @@ BEGIN
     WHERE e.IsDeleted = 0
 
 END
+GO
+
 
 CREATE PROCEDURE sp_Department_GetAll
 AS
@@ -110,5 +133,86 @@ BEGIN
     ORDER BY DepartmentName
 
 END
+GO
 
- 
+
+ CREATE PROCEDURE sp_Employee_Insert
+(
+    @EmployeeCode VARCHAR(20),
+    @FullName NVARCHAR(100),
+    @Email VARCHAR(100),
+    @Phone VARCHAR(20),
+    @DepartmentId INT,
+    @Position NVARCHAR(50),
+    @Salary DECIMAL(18,2)
+)
+AS
+BEGIN
+
+    INSERT INTO Employees
+    (
+        EmployeeCode,
+        FullName,
+        Email,
+        Phone,
+        DepartmentId,
+        Position,
+        Salary
+    )
+    VALUES
+    (
+        @EmployeeCode,
+        @FullName,
+        @Email,
+        @Phone,
+        @DepartmentId,
+        @Position,
+        @Salary
+    )
+
+END
+
+CREATE PROCEDURE sp_Employee_Update
+(
+    @EmployeeId INT,
+    @EmployeeCode VARCHAR(20),
+    @FullName NVARCHAR(100),
+    @Email VARCHAR(100),
+    @Phone VARCHAR(20),
+    @DepartmentId INT,
+    @Position NVARCHAR(50),
+    @Salary DECIMAL(18,2)
+)
+AS
+BEGIN
+
+    UPDATE Employees
+    SET
+        EmployeeCode = @EmployeeCode,
+        FullName = @FullName,
+        Email = @Email,
+        Phone = @Phone,
+        DepartmentId = @DepartmentId,
+        Position = @Position,
+        Salary = @Salary,
+        UpdatedAt = GETDATE()
+    WHERE EmployeeId = @EmployeeId
+
+END
+GO
+
+CREATE PROCEDURE sp_Employee_Delete
+(
+    @EmployeeId INT
+)
+AS
+BEGIN
+
+    UPDATE Employees
+    SET
+        IsDeleted = 1,
+        UpdatedAt = GETDATE()
+    WHERE EmployeeId = @EmployeeId
+
+END
+GO

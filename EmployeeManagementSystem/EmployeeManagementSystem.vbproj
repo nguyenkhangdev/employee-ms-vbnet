@@ -78,6 +78,7 @@
     <Compile Include="DAL\DbHelper\DbHelper.vb" />
     <Compile Include="DAL\Repositories\DepartmentRepository.vb" />
     <Compile Include="DAL\Repositories\EmployeeRepository.vb" />
+    <Compile Include="Models\Employee.vb" />
     <Compile Include="UI\Forms\frmEmployee.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -126,7 +127,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
-    <Folder Include="Models\" />
     <Folder Include="UI\Controls\" />
     <Folder Include="Utils\" />
   </ItemGroup>
