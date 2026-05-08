@@ -73,11 +73,14 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.vb">
+    <Compile Include="BLL\Services\EmployeeService.vb" />
+    <Compile Include="DAL\DbHelper\DbHelper.vb" />
+    <Compile Include="DAL\Repositories\EmployeeRepository.vb" />
+    <Compile Include="frmEmployee.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="frmEmployee.Designer.vb">
+      <DependentUpon>frmEmployee.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -97,6 +100,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmEmployee.resx">
+      <DependentUpon>frmEmployee.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -117,9 +123,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BLL\" />
-    <Folder Include="DAL\DbHelper\" />
-    <Folder Include="DAL\Repositories\" />
     <Folder Include="Database\" />
     <Folder Include="Models\" />
     <Folder Include="UI\Controls\" />
