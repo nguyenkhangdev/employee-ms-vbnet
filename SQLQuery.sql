@@ -216,3 +216,84 @@ BEGIN
 
 END
 GO
+
+CREATE TABLE Users
+(
+    UserId INT PRIMARY KEY IDENTITY(1,1),
+
+    Username VARCHAR(50) NOT NULL UNIQUE,
+
+    PasswordHash VARCHAR(255) NOT NULL,
+
+    FullName NVARCHAR(100),
+
+    RoleId INT,
+
+    IsActive BIT DEFAULT 1,
+
+    CreatedAt DATETIME DEFAULT GETDATE(),
+
+    UpdatedAt DATETIME NULL,
+
+    IsDeleted BIT DEFAULT 0
+);
+
+CREATE TABLE Roles
+(
+    RoleId INT PRIMARY KEY IDENTITY(1,1),
+
+    RoleName VARCHAR(50) NOT NULL,
+
+    CreatedAt DATETIME DEFAULT GETDATE()
+);
+
+ALTER TABLE Users
+ADD CONSTRAINT FK_Users_Roles
+FOREIGN KEY (RoleId)
+REFERENCES Roles(RoleId);
+
+INSERT INTO Roles(RoleName)
+VALUES
+('Admin'),
+('HR'),
+('Manager');
+
+CREATE PROCEDURE sp_User_Login
+(
+    @Username VARCHAR(50),
+    @PasswordHash VARCHAR(255)
+)
+AS
+BEGIN
+
+    SELECT
+        u.UserId,
+        u.Username,
+        u.FullName,
+        r.RoleName
+    FROM Users u
+    INNER JOIN Roles r
+        ON u.RoleId = r.RoleId
+    WHERE
+        u.Username = @Username
+        AND u.PasswordHash = @PasswordHash
+        AND u.IsDeleted = 0
+        AND u.IsActive = 1
+
+END
+
+INSERT INTO Users
+(
+    Username,
+    PasswordHash,
+    FullName,
+    RoleId
+)
+VALUES
+(
+    'admin',
+    'JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=',
+    N'System Administrator',
+    1
+);
+
