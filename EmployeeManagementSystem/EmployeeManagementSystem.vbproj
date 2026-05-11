@@ -73,10 +73,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\Services\AuditLogService.vb" />
     <Compile Include="BLL\Services\AuthService.vb" />
     <Compile Include="BLL\Services\DepartmentService.vb" />
     <Compile Include="BLL\Services\EmployeeService.vb" />
     <Compile Include="DAL\DbHelper\DbHelper.vb" />
+    <Compile Include="DAL\Repositories\AuditLogRepository.vb" />
     <Compile Include="DAL\Repositories\PermissionRepository.vb" />
     <Compile Include="DAL\Repositories\UserRepository.vb" />
     <Compile Include="UI\Forms\frmLogin.Designer.vb">
@@ -91,6 +93,7 @@
     <Compile Include="UI\Forms\frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Utils\AuditEnums.vb" />
     <Compile Include="Utils\CurrentUser.vb" />
     <Compile Include="Utils\PasswordHelper.vb" />
     <Compile Include="DAL\Repositories\DepartmentRepository.vb" />

@@ -148,7 +148,7 @@ GO
 )
 AS
 BEGIN
-
+BEGIN TRANSACTION;
     INSERT INTO Employees
     (
         EmployeeCode,
@@ -169,7 +169,7 @@ BEGIN
         @Position,
         @Salary
     )
-
+    COMMIT
 END
 
 CREATE PROCEDURE sp_Employee_Update
@@ -382,3 +382,47 @@ VALUES
 ('mgr01',  'JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=',    N'Manager 01',   3),
 ('staff01',   'JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=',     N'Staff 01',  4);
  
+
+
+ -- should be check CONSTRAINT or add relation table for fields Action and TableName
+ CREATE TABLE AuditLogs
+(
+    LogId INT PRIMARY KEY IDENTITY(1,1),
+
+    UserId INT NULL,
+
+    Action VARCHAR(50), -- INSERT, UPDATE, DELETE
+
+    TableName VARCHAR(50),
+
+    RecordId INT NULL,
+
+    OldValue NVARCHAR(MAX) NULL,
+
+    NewValue NVARCHAR(MAX) NULL,
+
+    CreatedAt DATETIME DEFAULT GETDATE()
+);
+
+CREATE PROCEDURE sp_AuditLog_Log
+(
+    @UserId INT,
+    @Action VARCHAR(50),
+    @TableName VARCHAR(50),
+    @RecordId VARCHAR(50),
+    @OldValue VARCHAR(MAX),
+    @NewValue VARCHAR(MAX)
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+
+        INSERT INTO AuditLogs
+        (UserId, Action, TableName, RecordId, OldValue, NewValue)
+        VALUES
+        (@UserId, @Action, @TableName, @RecordId, @OldValue, @NewValue)
+
+    COMMIT;
+END
+
+select * from AuditLogs

@@ -1,8 +1,11 @@
 ﻿Imports System.Data
+Imports EmployeeManagementSystem.AuditEnums
+Imports Microsoft.VisualBasic.ApplicationServices
 
 Public Class AuthService
 
     Private ReadOnly repository As New UserRepository()
+    Private ReadOnly auditService As New AuditLogService()
 
     Public Function Login(
         username As String,
@@ -61,8 +64,28 @@ Public Class AuthService
             CurrentUser.UserId
         )
 
+        auditService.Log(
+            AuditAction.Login.ToString(),
+            AuditTable.Users.ToString(),
+            Convert.ToInt32(row("UserId")),
+            "",
+            ""
+        )
+
         Return True
 
+    End Function
+
+    Public Function Logout() As Boolean
+
+        auditService.Log(
+            AuditAction.Logout.ToString(),
+            AuditTable.Users.ToString(),
+            CurrentUser.UserId,
+            "",
+            ""
+        )
+        Return True
     End Function
 
 End Class

@@ -1,4 +1,6 @@
 ﻿Public Class frmMain
+    Private ReadOnly authService As New AuthService()
+
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         lblUser.Text =
         "User: " & CurrentUser.Username
@@ -34,8 +36,14 @@
             Return
         End If
 
-        CurrentUser.Clear()
-        Application.Restart()
+        Dim logout = authService.Logout()
+        If logout Then
+            Application.Restart()
+        End If
+        If Not logout Then
+            MessageBox.Show(
+           "Logout have an error!")
+        End If
     End Sub
 
     Private Sub frmMain_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed

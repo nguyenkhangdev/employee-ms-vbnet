@@ -1,9 +1,11 @@
 ﻿Imports System.Data
 Imports System.Text.RegularExpressions
+Imports EmployeeManagementSystem.AuditEnums
 
 Public Class EmployeeService
 
     Private ReadOnly repository As New EmployeeRepository()
+    Private ReadOnly auditService As New AuditLogService()
 
     Public Function GetEmployeeById(Employee As String) As DataTable
 
@@ -65,7 +67,13 @@ Public Class EmployeeService
 
 
         repository.InsertEmployee(employee)
-
+        auditService.Log(
+            AuditAction.Insert.ToString(),
+            AuditTable.Employees.ToString(),
+            employee.EmployeeId,
+            "",
+            ""
+        )
     End Sub
 
     Public Sub UpdatetEmployee(employee As Employee)
@@ -90,8 +98,38 @@ Public Class EmployeeService
 
         End If
 
-        repository.updateEmployee(employee)
+        If Not String.IsNullOrWhiteSpace(employee.Email) Then
+            Dim emailPattern As String =
+            "^[^@\s]+@[^@\s]+\.[^@\s]+$"
 
+            If Not Regex.IsMatch(
+            employee.Email,
+            emailPattern
+        ) Then
+
+                Throw New Exception(
+            "Invalid email format."
+        )
+
+            End If
+
+        End If
+
+        If employee.Salary <= 0 Then
+
+            Throw New Exception(
+            "Salary must be greater than 0."
+        )
+        End If
+
+        repository.updateEmployee(employee)
+        auditService.Log(
+            AuditAction.Update.ToString(),
+            AuditTable.Employees.ToString(),
+            employee.EmployeeId,
+            "",
+            ""
+        )
     End Sub
 
     Public Sub DeleteEmployee(
@@ -107,7 +145,13 @@ Public Class EmployeeService
         End If
 
         repository.DeleteEmployee(employeeId)
-
+        auditService.Log(
+            AuditAction.Delete.ToString(),
+            AuditTable.Employees.ToString(),
+            employeeId,
+            "",
+            ""
+        )
     End Sub
 
 End Class
