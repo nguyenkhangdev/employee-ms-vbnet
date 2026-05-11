@@ -256,7 +256,8 @@ INSERT INTO Roles(RoleName)
 VALUES
 ('Admin'),
 ('HR'),
-('Manager');
+('Manager'),
+('Staff');
 
 CREATE PROCEDURE sp_User_Login
 (
@@ -297,3 +298,87 @@ VALUES
     1
 );
 
+CREATE TABLE Permissions
+(
+    PermissionId INT PRIMARY KEY IDENTITY(1,1),
+
+    PermissionCode VARCHAR(50) NOT NULL,
+
+    PermissionName NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE RolePermissions
+(
+    RoleId INT NOT NULL,
+
+    PermissionId INT NOT NULL,
+
+    PRIMARY KEY(RoleId, PermissionId),
+
+    CONSTRAINT FK_RolePermissions_Roles
+    FOREIGN KEY(RoleId)
+    REFERENCES Roles(RoleId),
+
+    CONSTRAINT FK_RolePermissions_Permissions
+    FOREIGN KEY(PermissionId)
+    REFERENCES Permissions(PermissionId)
+);
+
+INSERT INTO Permissions
+(
+    PermissionCode,
+    PermissionName
+)
+VALUES
+('EMPLOYEE_VIEW', N'View Employee'),
+('EMPLOYEE_ADD', N'Add Employee'),
+('EMPLOYEE_UPDATE', N'Update Employee'),
+('EMPLOYEE_DELETE', N'Delete Employee');
+
+INSERT INTO RolePermissions
+(RoleId, PermissionId)
+VALUES
+(1,1),
+(1,2),
+(1,3),
+(1,4);
+
+INSERT INTO RolePermissions
+(RoleId, PermissionId)
+VALUES
+(2,1),
+(2,2),
+(2,3);
+
+INSERT INTO RolePermissions
+(RoleId, PermissionId)
+VALUES
+(3,1);
+
+CREATE PROCEDURE sp_Permission_GetByUser
+(
+    @UserId INT
+)
+AS
+BEGIN
+
+    SELECT
+        p.PermissionCode
+    FROM Users u
+    INNER JOIN Roles r
+        ON u.RoleId = r.RoleId
+    INNER JOIN RolePermissions rp
+        ON r.RoleId = rp.RoleId
+    INNER JOIN Permissions p
+        ON rp.PermissionId = p.PermissionId
+    WHERE
+        u.UserId = @UserId
+
+END
+
+INSERT INTO Users (Username, PasswordHash, FullName, RoleId)
+VALUES
+('hr01',   'JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=',     N'HR Staff 01',  2),
+('mgr01',  'JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=',    N'Manager 01',   3),
+('staff01',   'JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=',     N'Staff 01',  4);
+ 

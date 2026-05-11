@@ -8,6 +8,8 @@
 
     Public Shared RoleName As String
 
+    Public Shared Permissions As New List(Of String)
+
     Public Shared Sub Clear()
 
         UserId = 0

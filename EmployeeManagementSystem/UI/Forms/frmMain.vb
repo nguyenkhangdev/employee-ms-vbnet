@@ -1,8 +1,17 @@
 ﻿Public Class frmMain
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        lblCurrentUser.Text = "Welcome, " &
-            CurrentUser.FullName & " (" &
-            CurrentUser.RoleName & ")"
+        lblUser.Text =
+        "User: " & CurrentUser.Username
+
+        lblRole.Text =
+        "Role: " & CurrentUser.RoleName
+
+        lblCurrentUser.Text =
+        "Welcome, " & CurrentUser.FullName
+
+        If Not PermissionHelper.HasPermission("EMPLOYEE_VIEW") Then
+            btnShowEmployeeManagement.Enabled = False
+        End If
 
     End Sub
 
@@ -32,4 +41,16 @@
     Private Sub frmMain_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
         Application.Exit()
     End Sub
+
+    Private Sub btnShowEmployeeManagement_Click(sender As Object, e As EventArgs) Handles btnShowEmployeeManagement.Click
+        If Not PermissionHelper.HasPermission("EMPLOYEE_VIEW") Then
+            MessageBox.Show("Access denied")
+            Return
+        End If
+
+        Dim frm As New frmEmployee(Me)
+        frm.Show()
+        Me.Hide()
+    End Sub
+
 End Class

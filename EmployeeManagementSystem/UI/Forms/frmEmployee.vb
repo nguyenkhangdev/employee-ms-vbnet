@@ -3,6 +3,13 @@
     Private ReadOnly departmentService As New DepartmentService()
     Private selectedEmployeeId As Integer
 
+    Private mainForm As frmMain
+
+    Public Sub New(parent As frmMain)
+        InitializeComponent()
+        mainForm = parent
+    End Sub
+
     Private Sub ClearForm()
 
         txtEmployeeCode.Clear()
@@ -51,6 +58,21 @@
         sender As Object,
         e As EventArgs
     ) Handles MyBase.Load
+        btnAdd.Enabled =
+        PermissionHelper.HasPermission(
+            "EMPLOYEE_ADD"
+        )
+
+            btnUpdate.Enabled =
+        PermissionHelper.HasPermission(
+            "EMPLOYEE_UPDATE"
+        )
+
+            btnDelete.Enabled =
+        PermissionHelper.HasPermission(
+            "EMPLOYEE_DELETE"
+        )
+
         LoadEmployees()
         LoadDepartments()
 
@@ -253,5 +275,11 @@
             MessageBox.Show(ex.Message)
 
         End Try
+    End Sub
+
+    Private Sub frmEmployee_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+
+        mainForm.Show()
+
     End Sub
 End Class

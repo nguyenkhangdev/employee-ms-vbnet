@@ -55,6 +55,12 @@ Public Class AuthService
         CurrentUser.RoleName =
             row("RoleName").ToString()
 
+        Dim permissionRepo As New PermissionRepository()
+
+        CurrentUser.Permissions = permissionRepo.GetPermissionsByUser(
+            CurrentUser.UserId
+        )
+
         Return True
 
     End Function
